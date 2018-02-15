@@ -4,22 +4,25 @@ from validators.user import validate_user
 from views import user as userview
 from dao.user import get_user_by_id, get_all_user, get_user_by_mail, create_user
 from dao.session import get_session
+from validators.session import authenticate_user
 
 class User(Resource):
 
     def get(self, user_id = None):
-        params = request.args.to_dict()
+        
+        params = request.args.to_dict()      
 
-        session = get_session(params['token'])
-        current_user = session['user']
-
-        # print ("\nCURRENT USER : ", get_user_by_id(current_user), "\n\n")
+        if not params:
+            return {"response" : "Bad Request"}, 400
+            
+        if not authenticate_user(params.get('token')):
+            return {"response" : "Unauthorised Access"}, 401
 
         if user_id:
             user = get_user_by_id(user_id)
 
             if not user:
-                return {"response" : "User not found"},404
+                return {"response" : "User not found"}, 404
             return {"response" : userview.single(user) }
 
         users = get_all_user()

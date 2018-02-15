@@ -12,7 +12,7 @@ api = Api(app)
 
 
 api.add_resource(Ping, '/ping/')
-api.add_resource(User, '/user','/user/<string:user_id>')
+api.add_resource(User, '/users','/users/<string:user_id>')
 api.add_resource(UserValidation, '/uservalidation')
 
 
