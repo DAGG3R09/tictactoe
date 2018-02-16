@@ -8,5 +8,8 @@ def single(user_object):
     }
 
 def multiple(user_objects):
-    print (user_objects, "\n\n")
-    return [ single(user_object) for user_object in user_objects ]
+    # print (user_objects, "\n\n")
+    return [ 
+        single(user_object) 
+        for user_object in user_objects 
+    ]

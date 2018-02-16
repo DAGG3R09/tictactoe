@@ -23,6 +23,10 @@ def create_game_instance(user1_obj_id, user2_obj_id):
 def get_game_instance(game_obj_id):
     return ginstancecltn.find_one({"_id" : game_obj_id})
 
+def get_all_game_instances():
+    return ginstancecltn.find({})
+    
+
 def accepted_game_instance(game_obj_id):
     ginstancecltn.update_one(
         {"_id" : game_obj_id}, 
@@ -44,10 +48,10 @@ if __name__ == "__main__":
     user2 = ObjectId("5a6d59533fea99b0b6bbcd8b")
     gi = create_game_instance(user1, user2)
 
-    print "CREATED : ", get_game_instance(gi)
+    print ("CREATED : ", get_game_instance(gi))
 
     accepted_game_instance(gi)
-    print "ACCEPTED : ", get_game_instance(gi)
+    print ("ACCEPTED : ", get_game_instance(gi))
 
     make_move(
         gi, 

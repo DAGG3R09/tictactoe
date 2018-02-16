@@ -1,10 +1,11 @@
 from flask_restful import Resource
 from flask import request
 from validators.user import validate_user
+from validators.session import authenticate_user
+
 from views import user as userview
 from dao.user import get_user_by_id, get_all_user, get_user_by_mail, create_user
 from dao.session import get_session
-from validators.session import authenticate_user
 
 class User(Resource):
 
