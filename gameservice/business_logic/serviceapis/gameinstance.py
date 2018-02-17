@@ -7,13 +7,13 @@ from dao.session import get_session
 from dao.user import get_user_by_id
 from dao.game_instance import get_game_instance
 from dao.game_instance import get_all_game_instances
-from dao.game_instance import create_game_instance
+from dao.game_instance import create_game_instance, accepted_game_instance
 
 from views import game_instance as gameview
 
 from validators.session import authenticate_user
 from validators.game_instance import validate_create_game_instance
-
+from validators.game_instance import check_acceptance
 
 class GameInstance(Resource):
     
@@ -37,6 +37,7 @@ class GameInstance(Resource):
 
         return {"response:" : (gameview.multiple(game_instances))}
 
+
     def post(self):
         payload = request.json
         params = request.args.to_dict()
@@ -58,6 +59,25 @@ class GameInstance(Resource):
         
         return {"response" : str(gi)}
 
+
+
     def put(self):
         payload = request.json
+        params = request.args.to_dict()
+
+        if not payload or not params:
+            return {"response:" : "Bad Request"}, 400
+
+        if not authenticate_user(params.get("token")):
+            return {"response" : "Unauthorized Access"}, 401
+
+        session = get_session(params.get("token"))
+        user_id = session['user']
+        game_obj_id = payload['game_id']
+
+        if not check_acceptance(user_id, game_obj_id):
+            return {"response" : "Unauthorized Access"}, 401
         
+        accepted_game_instance(game_obj_id)
+
+        return {"response" : gameview.single(game_obj_id)}
