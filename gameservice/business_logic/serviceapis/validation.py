@@ -27,8 +27,8 @@ class UserValidation(Resource):
         create_user_session( user["_id"] , token )
 
         return {
-            "response" : {
-                "token" : token,
-                "expiry" : None
+            "response": {
+                "token": token,
+                "expiry": None
             }
         }

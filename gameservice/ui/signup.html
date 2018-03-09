@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <title>Game Service</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body ng-app="gameservice">
+
+    <div class="page-header">
+      <h1>&nbsp&nbsp&nbsp&nbsp&nbspGame Service</h1>
+    </div>
+
+  <!-- Login -->
+  <div class = "container" >
+  <div class = "col-xs-4" ng-controller="loginCtrl">
+
+    <h2 class="media-heading"> Sign Up </h2>
+    <br>
+    <br>
+    <label for="username">Name:</label>
+    <input type="text" class="form-control" ng-model="name">
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" class="form-control" ng-model="pwd">
+    <br>
+    <label for="alias">Alias:</label>
+    <input type="text" class="form-control" ng-model="alias">
+    <br>
+    <label for="email">Email:</label>
+    <input type="text" class="form-control" ng-model="email">
+    <br>
+
+    <br>
+    <br>
+    <div class="text-center">
+      <button type="button" class="btn btn-primary" ng-click="create_user()">Sign Up</button>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    var app = angular.module("gameservice", []);
+    app.controller('loginCtrl', function($scope, $http) {
+      var hostname = "http://127.0.0.1/gameservice/"
+
+      $scope.create_user = function() {
+        var _url = (hostname + "uservalidation");
+        $http({
+          method : "POST",
+          url : _url,
+          header:{
+            "Content-Type":"application/json"
+          },
+          data:{
+            "username": $scope.name,
+            "password": $scope.pwd,
+            "alias": $scope.alias,
+            "email": $scope.email
+          }
+        }).then(function mySuccess(response) {
+          alert("user created")
+          $scope.response = response.data.response;
+          alert($scope.response)
+        });
+      }
+        // $scope.pwd = "John Doe";
+    });
+  </script>
+</body>
+</html>

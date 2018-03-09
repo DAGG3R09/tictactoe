@@ -10,6 +10,7 @@ def single(game_instance_object):
         "winner" : str(game_instance_object.get('winner')),
     }
 
+
 def multiple(game_instance_objects):
     
     if not game_instance_objects:
